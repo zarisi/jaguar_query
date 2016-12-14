@@ -4,19 +4,23 @@
 import 'package:query/query.dart';
 
 main() {
-  BinaryExpression exp1 = new BinaryExpression(
-      new ScalarExpression(new QItem('age', ComparisonOperator.GtEq, 20)),
+  final exp1 = new BExp(
+      new SExp(new Q('age', ComparisonOperator.GtEq, new VInt(20))),
       BinaryLogicalOperator.And,
-      new ScalarExpression(new QItem('age', ComparisonOperator.LtEq, 50)));
-  BinaryExpression exp2 = new BinaryExpression(
-      new ScalarExpression(new QItem('experience', ComparisonOperator.GtEq, 20)),
+      new SExp(new Q('age', ComparisonOperator.LtEq, new VInt(50))));
+  final exp2 = new BExp(
+      new SExp(new Q('experience', ComparisonOperator.GtEq, new VInt(5))),
       BinaryLogicalOperator.And,
-      new ScalarExpression(new QItem('experience', ComparisonOperator.GtEq, 20)));
-  BinaryExpression exp = new BinaryExpression(
-      exp1,
-      BinaryLogicalOperator.And,
-      exp2);
+      new SExp(new Q('experience', ComparisonOperator.GtEq, new VInt(50))));
+  final exp = new BExp(exp1, BinaryLogicalOperator.And, exp2);
 
-  QuerySet query = new QuerySet(exp);
-  print(query.toSql());
+  W where = new W();
+  where.e = exp;
+  print(where.toSql());
+
+  SimpSel st = new SimpSel();
+  st.column.addAll([new C('age')]);
+  st.from = new SimT('people');
+  st.where.e = exp;
+  print(st.toSql());
 }
