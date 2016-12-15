@@ -3,13 +3,45 @@ part of query;
 class C implements ToSqlable {
   final String name;
 
-  C(this.name);
+  final String alias;
 
-  String toSql() => this.name;
+  C(this.name, [this.alias]);
+
+  String toSql() {
+    String ret = this.name;
+
+    if(alias is String) {
+      ret += ' as ${this.alias}';
+    }
+
+    return ret;
+  }
 }
 
+class JoinType implements ToSqlable {
+  final int id;
+
+  final String string;
+
+  const JoinType._(this.id, this.string);
+
+  String toSql() => string;
+
+  static const JoinType InnerJoin = const JoinType._(0, 'INNER JOIN');
+
+  static const JoinType LeftJoin = const JoinType._(1, 'LEFT JOIN');
+
+  static const JoinType RightJoin = const JoinType._(2, 'RIGHT JOIN');
+
+  static const JoinType FullJoin = const JoinType._(3, 'FULL JOIN');
+
+  static const JoinType CrossJoin = const JoinType._(4, 'CROSS JOIN');
+}
+
+/// Table selector
 abstract class T implements ToSqlable {}
 
+/// Simple table selector with no joins
 class SimT implements T {
   final String tableName;
 
@@ -24,6 +56,20 @@ class SimT implements T {
     }
     return ret;
   }
+}
+
+class JoinedT implements T {
+  final SimT from;
+
+  final JoinType type;
+
+  final SimT to;
+
+  final Expression on;
+
+  JoinedT(this.from, this.type, this.to, this.on);
+
+  String toSql() => '${from.toSql()} ${type.toSql()} ${to.toSql()} ON ${on.toSql()}';
 }
 
 abstract class Statement implements ToSqlable {}
