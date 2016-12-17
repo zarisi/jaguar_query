@@ -51,6 +51,9 @@ class C<ValType extends V> extends Expression {
   static C like(String field, VString value) =>
       new C(field, ComparisonOperator.Like, value);
 
+  static AndExpression inBetween<ValType extends V>(String field, ValType low, ValType high) =>
+      new AndExpression()..and(C.gt(field, low))..and(C.lt(field, high));
+
   @checked
   AndExpression and(Expression exp) {
     if(exp is AndExpression) {

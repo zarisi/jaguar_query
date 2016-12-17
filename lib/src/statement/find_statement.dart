@@ -1,11 +1,23 @@
 part of query;
 
+class OrderBy implements ToSqlable {
+  final String columnName;
+
+  final bool ascending;
+
+  const OrderBy(this.columnName, [this.ascending = false]);
+
+  String toSql() => '$columnName ' + (ascending? 'ASC': 'DESC');
+}
+
 class FindStatement implements Statement {
   final Set<Column> _column = new Set<Column>();
 
   final JoinedTable _fromClause = new JoinedTable();
 
   final AndExpression _where = new AndExpression();
+
+  final List<OrderBy> _orderBy = [];
 
   int _limit;
 
@@ -61,6 +73,18 @@ class FindStatement implements Statement {
     return this;
   }
 
+  FindStatement orderBy(String column, [bool ascending = false]) {
+    _orderBy.add(new OrderBy(column, ascending));
+    return this;
+  }
+
+  FindStatement orderByMany(List<String> columns, [bool ascending = false]) {
+    columns.forEach((String column) {
+      _orderBy.add(new OrderBy(column, ascending));
+    });
+    return this;
+  }
+
   FindStatement limit(int val) {
     if(_limit != null) {
       throw new Exception('Already limited!');
@@ -85,6 +109,11 @@ class FindStatement implements Statement {
     if (_where.length != 0) {
       sb.write(' WHERE ');
       sb.write(_where.toSql());
+    }
+
+    if(_orderBy.length != 0) {
+      sb.write(' ORDER BY ');
+      sb.write(_orderBy.map((OrderBy orderBy) => orderBy.toSql()).join(', '));
     }
 
     if(_limit is int) {
