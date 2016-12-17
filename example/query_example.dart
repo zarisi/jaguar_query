@@ -8,7 +8,8 @@ main() {
       .from('posts')
       .select('message')
       .where(C.gt('likes', new VInt(10)) & C.lt('replies', new VInt(5)))
-      .where(C.eq('author', V.Str('teja')) | C.like('author', V.Str('kleak*')));
+      .where(C.eq('author', V.Str('teja')) | C.like('author', V.Str('kleak*')))
+      .limit(10);
 
   print(find.toSql());
 
@@ -27,9 +28,8 @@ main() {
 
   print(update.toSql());
 
-  DeleteStatement delete = Sql.delete
-      .from('posts')
-      .where(C.eq('author', V.Str('teja')));
+  DeleteStatement delete =
+      Sql.delete.from('posts').where(C.eq('author', V.Str('teja')));
 
   print(delete.toSql());
 }

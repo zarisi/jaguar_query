@@ -1,3 +1,3 @@
 # query
 
-SQL query maker
+Dialect neutral SQL query maker

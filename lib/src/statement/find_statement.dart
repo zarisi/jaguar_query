@@ -7,6 +7,8 @@ class FindStatement implements Statement {
 
   final AndExpression _where = new AndExpression();
 
+  int _limit;
+
   FindStatement();
 
   FindStatement from(String tableName, [String alias]) {
@@ -59,6 +61,14 @@ class FindStatement implements Statement {
     return this;
   }
 
+  FindStatement limit(int val) {
+    if(_limit != null) {
+      throw new Exception('Already limited!');
+    }
+    _limit = val;
+    return this;
+  }
+
   String toSql() {
     StringBuffer sb = new StringBuffer();
     sb.write('SELECT ');
@@ -75,6 +85,10 @@ class FindStatement implements Statement {
     if (_where.length != 0) {
       sb.write(' WHERE ');
       sb.write(_where.toSql());
+    }
+
+    if(_limit is int) {
+      sb.write(' LIMIT $_limit');
     }
 
     sb.write(';');
