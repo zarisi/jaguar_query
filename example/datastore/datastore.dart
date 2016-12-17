@@ -1,3 +1,4 @@
+/*
 import 'package:query/query.dart';
 
 class User {
@@ -61,3 +62,4 @@ abstract class Example {
   }
   */
 }
+*/

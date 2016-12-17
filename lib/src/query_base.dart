@@ -13,6 +13,8 @@ part 'operators/logical.dart';
 part 'statement/statements.dart';
 part 'statement/find_statement.dart';
 part 'statement/insert_statement.dart';
+part 'statement/update_statement.dart';
+part 'statement/delete_statement.dart';
 
 part 'table/table.dart';
 
@@ -26,4 +28,8 @@ class Sql {
   static FindStatement get find => new FindStatement();
 
   static InsertStatement get insert => new InsertStatement();
+
+  static UpdateStatement get update => new UpdateStatement();
+
+  static DeleteStatement get delete => new DeleteStatement();
 }

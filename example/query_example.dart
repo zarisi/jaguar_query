@@ -19,4 +19,17 @@ main() {
       .setValues({'likes': V.Int(0), 'replies': V.Int(0)});
 
   print(insert.toSql());
+
+  UpdateStatement update = Sql.update
+      .into('posts')
+      .where(C.eq('author', V.Str('teja')))
+      .setValue('likes', V.Int(1));
+
+  print(update.toSql());
+
+  DeleteStatement delete = Sql.delete
+      .from('posts')
+      .where(C.eq('author', V.Str('teja')));
+
+  print(delete.toSql());
 }
