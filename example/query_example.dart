@@ -4,24 +4,6 @@
 import 'package:query/query.dart';
 
 main() {
-  /* TODO
-  final exp1 = new BExp(
-      new SExp(new Q('age', ComparisonOperator.GtEq, new VInt(20))),
-      BinaryLogicalOperator.And,
-      new SExp(new Q('age', ComparisonOperator.LtEq, new VInt(50))));
-  final exp2 = new BExp(
-      new SExp(new Q('experience', ComparisonOperator.GtEq, new VInt(5))),
-      BinaryLogicalOperator.And,
-      new SExp(new Q('experience', ComparisonOperator.GtEq, new VInt(50))));
-  final exp = new BExp(exp1, BinaryLogicalOperator.And, exp2);
-
-
-
-  W where = new W();
-  where.e = exp;
-  print(where.toSql());
-  */
-
   FindStatement find = Sql.find
       .from('posts')
       .select('message')
