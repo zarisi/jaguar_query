@@ -12,6 +12,7 @@ part 'operators/logical.dart';
 
 part 'statement/statements.dart';
 part 'statement/find_statement.dart';
+part 'statement/insert_statement.dart';
 
 part 'table/table.dart';
 
@@ -23,4 +24,6 @@ abstract class ToSqlable {
 
 class Sql {
   static FindStatement get find => new FindStatement();
+
+  static InsertStatement get insert => new InsertStatement();
 }
