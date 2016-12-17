@@ -4,6 +4,7 @@
 import 'package:query/query.dart';
 
 main() {
+  /* TODO
   final exp1 = new BExp(
       new SExp(new Q('age', ComparisonOperator.GtEq, new VInt(20))),
       BinaryLogicalOperator.And,
@@ -14,13 +15,17 @@ main() {
       new SExp(new Q('experience', ComparisonOperator.GtEq, new VInt(50))));
   final exp = new BExp(exp1, BinaryLogicalOperator.And, exp2);
 
+
+
   W where = new W();
   where.e = exp;
   print(where.toSql());
+  */
 
-  SimpSel st = new SimpSel();
-  st.column.addAll([new C('age')]);
-  st.from = new SimT('people');
-  st.where.e = exp;
-  print(st.toSql());
+  FindStatement find = Sql.find.from('posts')
+      .select('message')
+      .where(C.gt('likes', new VInt(10)) & C.lt('replies', new VInt(5)))
+      .where(C.eq('author', V.Str('teja')) | C.like('author', V.Str('kleak*')));
+
+  print(find.toSql());
 }

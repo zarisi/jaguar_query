@@ -45,6 +45,7 @@ abstract class Example {
   @OrderBy()
   User getById(String id);
 
+  /*
   W get where {
     final exp1 = new BExp(
         new SExp(new Q('age', ComparisonOperator.GtEq, new VInt(20))),
@@ -58,4 +59,5 @@ abstract class Example {
 
     return new W()..e = exp;
   }
+  */
 }

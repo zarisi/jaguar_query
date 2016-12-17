@@ -20,4 +20,6 @@ class ComparisonOperator implements ToSqlable {
   static const LtEq = const ComparisonOperator._(4, '<=');
 
   static const Lt = const ComparisonOperator._(5, '<');
+
+  static const Like = const ComparisonOperator._(6, 'LIKE');
 }
