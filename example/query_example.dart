@@ -7,7 +7,7 @@ main() {
   FindStatement find = Sql.find
       .from('posts')
       .select('message')
-      .where(C.gt('likes', new VInt(10)) & C.lt('replies', new VInt(5)))
+      .where(C.gt('likes', V.Int(10)) & C.lt('replies', V.Int(5)))
       .where(C.eq('author', V.Str('teja')) | C.like('author', V.Str('kleak*')))
       .orderBy('author', true)
       .limit(10);

@@ -3,6 +3,8 @@ part of query;
 abstract class Expression implements ToSqlable {
   const Expression();
 
+  int get length;
+
   AndExpression operator &(Expression other) {
     return and(other);
   }
@@ -18,6 +20,8 @@ abstract class Expression implements ToSqlable {
   OrExpression or(Expression exp);
 }
 
+abstract class ExpressionMixin implements Expression {}
+
 /// Condition encapsulates a conditional expression
 ///
 /// (<field> <operation> <value>)
@@ -30,57 +34,72 @@ class C<ValType extends V> extends Expression {
 
   const C(this.field, this.op, this.value);
 
-  static C eq<ValType extends V> (String field, ValType value) =>
-      new C(field, ComparisonOperator.Eq, value);
+  static C eq<ValType extends V>(String field, ValType value) => new C(
+      field, ComparisonOperator.Eq, value);
 
-  static C ne<ValType extends V> (String field, ValType value) =>
-      new C(field, ComparisonOperator.Ne, value);
+  static C ne<ValType extends V>(String field, ValType value) => new C(
+      field, ComparisonOperator.Ne, value);
 
-  static C gt<ValType extends V> (String field, ValType value) =>
-      new C(field, ComparisonOperator.Gt, value);
+  static C gt<ValType extends V>(String field, ValType value) => new C(
+      field, ComparisonOperator.Gt, value);
 
-  static C gtEq<ValType extends V> (String field, ValType value) =>
-      new C(field, ComparisonOperator.GtEq, value);
+  static C gtEq<ValType extends V>(String field, ValType value) => new C(
+      field, ComparisonOperator.GtEq, value);
 
-  static C ltEq<ValType extends V> (String field, ValType value) =>
-      new C(field, ComparisonOperator.LtEq, value);
+  static C ltEq<ValType extends V>(String field, ValType value) => new C(
+      field, ComparisonOperator.LtEq, value);
 
-  static C lt<ValType extends V> (String field, ValType value) =>
-      new C(field, ComparisonOperator.Lt, value);
+  static C lt<ValType extends V>(String field, ValType value) => new C(
+      field, ComparisonOperator.Lt, value);
 
   static C like(String field, VString value) =>
       new C(field, ComparisonOperator.Like, value);
 
-  static AndExpression inBetween<ValType extends V>(String field, ValType low, ValType high) =>
-      new AndExpression()..and(C.gt(field, low))..and(C.lt(field, high));
+  static InBetweenExpression inBetween<ValType extends V>(
+          String field, ValType low, ValType high) =>
+      new InBetweenExpression<ValType>(field, low, high);
+
+  int get length => 1;
 
   @checked
   AndExpression and(Expression exp) {
-    if(exp is AndExpression) {
-      return exp.and(this);
-    }
-
     AndExpression ret = new AndExpression();
-    ret.and(this);
-    ret.and(exp);
-
-    return ret;
+    return ret.and(this).and(exp);
   }
 
   @checked
   OrExpression or(Expression exp) {
-    if(exp is OrExpression) {
-      return exp.or(this);
-    }
-
     OrExpression ret = new OrExpression();
-    ret.or(this);
-    ret.or(exp);
-
-    return ret;
+    return ret.or(this).or(exp);
   }
 
-  String toSql() => '($field ${op.toSql()} ${value.toSql()})';
+  String toSql() => '$field ${op.toSql()} ${value.toSql()}';
+}
+
+class InBetweenExpression<ValType extends V> extends Expression {
+  final String field;
+
+  final ValType low;
+
+  final ValType high;
+
+  const InBetweenExpression(this.field, this.low, this.high);
+
+  int get length => 1;
+
+  @checked
+  AndExpression and(Expression exp) {
+    AndExpression ret = new AndExpression();
+    return ret.and(this).and(exp);
+  }
+
+  @checked
+  OrExpression or(Expression exp) {
+    OrExpression ret = new OrExpression();
+    return ret.or(this).or(exp);
+  }
+
+  String toSql() => '($field BETWEEN ${low.toSql()} AND ${high.toSql()})';
 }
 
 class AndExpression extends Expression {
@@ -92,7 +111,7 @@ class AndExpression extends Expression {
 
   @checked
   AndExpression and(Expression exp) {
-    if(exp is AndExpression) {
+    if (exp is AndExpression) {
       _expressions.addAll(exp._expressions);
     } else {
       _expressions.add(exp);
@@ -103,12 +122,26 @@ class AndExpression extends Expression {
 
   @checked
   OrExpression or(Expression exp) {
-    //TODO
+    OrExpression ret = new OrExpression();
+
+    return ret.or(this).or(exp);
   }
 
-  String toSql() => '(' + _expressions
-      .map((Expression exp) => exp.toSql())
-      .join(' ' + BinaryLogicalOperator.And.toSql() + ' ') + ')';
+  String toSql() => _expressions.map((Expression exp) {
+        StringBuffer sb = new StringBuffer();
+
+        if (exp.length != 1) {
+          sb.write('(');
+        }
+
+        sb.write(exp.toSql());
+
+        if (exp.length != 1) {
+          sb.write(')');
+        }
+
+        return sb.toString();
+      }).join(' ' + BinaryLogicalOperator.And.toSql() + ' ');
 }
 
 class OrExpression extends Expression {
@@ -120,12 +153,13 @@ class OrExpression extends Expression {
 
   @checked
   AndExpression and(Expression exp) {
-
+    AndExpression ret = new AndExpression();
+    return ret.and(this).and(exp);
   }
 
   @checked
   OrExpression or(Expression exp) {
-    if(exp is OrExpression) {
+    if (exp is OrExpression) {
       _expressions.addAll(exp._expressions);
     } else {
       _expressions.add(exp);
@@ -134,24 +168,19 @@ class OrExpression extends Expression {
     return this;
   }
 
-  String toSql() => '(' + _expressions
-      .map((Expression exp) => exp.toSql())
-      .join(' ' + BinaryLogicalOperator.Or.toSql() + ' ') + ' ';
+  String toSql() => _expressions.map((Expression exp) {
+        StringBuffer sb = new StringBuffer();
+
+        if (exp.length != 1) {
+          sb.write('(');
+        }
+
+        sb.write(exp.toSql());
+
+        if (exp.length != 1) {
+          sb.write(')');
+        }
+
+        return sb.toString();
+      }).join(' ' + BinaryLogicalOperator.Or.toSql() + ' ');
 }
-
-/*
-/// A binary expression
-///
-/// (<field> <operation> <value>) op (<field> <operation> <value>)
-class BExp implements Expression {
-  final Expression lh;
-
-  final BinaryLogicalOperator op;
-
-  final Expression rh;
-
-  BExp(this.lh, this.op, this.rh);
-
-  String toSql() => '(${lh.toSql()}) ${op.toSql()} (${rh.toSql()})';
-}
-*/

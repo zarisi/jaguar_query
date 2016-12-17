@@ -7,8 +7,10 @@ class Find {
   const Find();
 }
 
-class Where {
-  const Where();
+class WhereEq {
+  final Symbol field;
+
+  const WhereEq(this.field);
 }
 
 class Posts {
@@ -23,9 +25,7 @@ class Posts {
   int replies;
 }
 
-class Bean<Model> {
-
-}
+class Bean<Model> {}
 
 class PostsBean implements Bean<Posts> {
   final String tableName;
@@ -33,14 +33,11 @@ class PostsBean implements Bean<Posts> {
   PostsBean(this.tableName);
 
   @Find()
-  @Where()
-  Posts findById(String id) {
+  Posts findById(@WhereEq(#id) String id) {
     FindStatement find = Sql.find.from(tableName).where(C.eq('id', V.Str(id)));
 
     return new Posts(); //TODO dummy
   }
 }
 
-main() {
-
-}
+main() {}
