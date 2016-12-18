@@ -17,6 +17,18 @@ class UpdateStatement implements Statement {
     return this;
   }
 
+  UpdateStatement set(SetColumn column) {
+    setValue(column._column, column._value);
+    return this;
+  }
+
+  UpdateStatement setMany(List<SetColumn> columns) {
+    columns.forEach((SetColumn column) {
+      setValue(column._column, column._value);
+    });
+    return this;
+  }
+
   UpdateStatement setValue(String column, V value) {
     _values[column] = value;
     return this;
