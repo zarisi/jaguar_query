@@ -10,7 +10,7 @@ class UpdateStatement implements Statement {
   UpdateStatement();
 
   UpdateStatement into(String tableName) {
-    if(_tableName != null) {
+    if (_tableName != null) {
       throw new Exception("Name already assigend!");
     }
     _tableName = tableName;
@@ -37,7 +37,9 @@ class UpdateStatement implements Statement {
 
     sb.write('UPDATE $_tableName SET ');
 
-    sb.write(_values.keys.map((String key) => '$key=${_values[key].toSql()}').join(', '));
+    sb.write(_values.keys
+        .map((String key) => '$key=${_values[key].toSql()}')
+        .join(', '));
 
     if (_where.length != 0) {
       sb.write(' WHERE ');

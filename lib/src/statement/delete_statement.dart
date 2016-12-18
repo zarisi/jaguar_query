@@ -8,7 +8,7 @@ class DeleteStatement implements Statement {
   DeleteStatement();
 
   DeleteStatement from(String tableName) {
-    if(_tableName != null) {
+    if (_tableName != null) {
       throw new Exception("Name already assigend!");
     }
     _tableName = tableName;

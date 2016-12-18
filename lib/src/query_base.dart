@@ -15,6 +15,7 @@ part 'statement/find_statement.dart';
 part 'statement/insert_statement.dart';
 part 'statement/update_statement.dart';
 part 'statement/delete_statement.dart';
+part 'statement/create_table_statement.dart';
 
 part 'table/table.dart';
 

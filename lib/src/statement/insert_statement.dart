@@ -8,10 +8,22 @@ class InsertStatement implements Statement {
   InsertStatement();
 
   InsertStatement into(String tableName) {
-    if(_tableName != null) {
+    if (_tableName != null) {
       throw new Exception("Name already assigend!");
     }
     _tableName = tableName;
+    return this;
+  }
+
+  InsertStatement set(SetColumn column) {
+    setValue(column._column, column._value);
+    return this;
+  }
+
+  InsertStatement setMany(List<SetColumn> columns) {
+    columns.forEach((SetColumn column) {
+      setValue(column._column, column._value);
+    });
     return this;
   }
 

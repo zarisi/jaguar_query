@@ -1,8 +1,10 @@
-name: query
-description: SQL query maker
+name: jaguar_query
+description: Dialect neutral SQL/NoSQL query maker
 version: 0.0.1
-#author: Ravi Teja Gudapati <email@example.com>
-#homepage: https://www.example.com
+authors:
+- Ravi Teja Gudapati <tejainece@gmail.com>
+- Kevin Segaud <segaud.kevin@gmail.com>
+homepage: http://jaguar-dart.github.io
 
 environment:
   sdk: '>=1.0.0 <2.0.0'

@@ -7,11 +7,11 @@ class OrderBy implements ToSqlable {
 
   const OrderBy(this.columnName, [this.ascending = false]);
 
-  String toSql() => '$columnName ' + (ascending? 'ASC': 'DESC');
+  String toSql() => '$columnName ' + (ascending ? 'ASC' : 'DESC');
 }
 
 class FindStatement implements Statement {
-  final Set<Column> _column = new Set<Column>();
+  final Set<SelColumn> _column = new Set<SelColumn>();
 
   final JoinedTable _fromClause = new JoinedTable();
 
@@ -64,7 +64,7 @@ class FindStatement implements Statement {
   }
 
   FindStatement select(String columnName, [String alias]) {
-    _column.add(new Column(columnName, alias));
+    _column.add(new SelColumn(columnName, alias));
     return this;
   }
 
@@ -86,7 +86,7 @@ class FindStatement implements Statement {
   }
 
   FindStatement limit(int val) {
-    if(_limit != null) {
+    if (_limit != null) {
       throw new Exception('Already limited!');
     }
     _limit = val;
@@ -100,7 +100,7 @@ class FindStatement implements Statement {
     if (_column.length == 0) {
       sb.write('* ');
     } else {
-      sb.write(_column.map((Column col) => col.toSql()).toList().join(', '));
+      sb.write(_column.map((SelColumn col) => col.toSql()).toList().join(', '));
     }
 
     sb.write(' FROM ');
@@ -111,12 +111,12 @@ class FindStatement implements Statement {
       sb.write(_where.toSql());
     }
 
-    if(_orderBy.length != 0) {
+    if (_orderBy.length != 0) {
       sb.write(' ORDER BY ');
       sb.write(_orderBy.map((OrderBy orderBy) => orderBy.toSql()).join(', '));
     }
 
-    if(_limit is int) {
+    if (_limit is int) {
       sb.write(' LIMIT $_limit');
     }
 
