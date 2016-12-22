@@ -7,5 +7,4 @@
 library query;
 
 export 'src/query_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/field/field.dart';
