@@ -5,7 +5,11 @@ library query;
 
 import 'package:meta/meta.dart';
 
+part 'expression/and.dart';
+part 'expression/condition.dart';
 part 'expression/expressions.dart';
+part 'expression/in_between.dart';
+part 'expression/or.dart';
 
 part 'operators/comparision.dart';
 part 'operators/logical.dart';
