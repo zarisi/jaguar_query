@@ -8,3 +8,4 @@ library query;
 
 export 'src/query_base.dart';
 export 'src/field/field.dart';
+export 'src/adapter/adapter.dart';
