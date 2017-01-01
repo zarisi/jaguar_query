@@ -1,22 +1,30 @@
 part of query;
 
+/// A SQL join type that can be used in 'SELECT' statements
 class JoinType implements ToSqlable {
+  /// Identification code for this join type
   final int id;
 
+  /// String representation of this join type
   final String string;
 
   const JoinType._(this.id, this.string);
 
   String toSql() => string;
 
+  /// 'INNER JOIN' join type
   static const JoinType InnerJoin = const JoinType._(0, 'INNER JOIN');
 
+  /// 'LEFT JOIN' join type
   static const JoinType LeftJoin = const JoinType._(1, 'LEFT JOIN');
 
+  /// 'RIGHT JOIN' join type
   static const JoinType RightJoin = const JoinType._(2, 'RIGHT JOIN');
 
+  /// 'FULL JOIN' join type
   static const JoinType FullJoin = const JoinType._(3, 'FULL JOIN');
 
+  /// 'CROSS JOIN' join type
   static const JoinType CrossJoin = const JoinType._(4, 'CROSS JOIN');
 }
 

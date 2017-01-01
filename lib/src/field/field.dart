@@ -57,7 +57,7 @@ class Field<ValType extends V> {
   ///     FindStatement find = new FindStatement();
   ///     Field<String> author = new Field<String>('author');
   ///     find.where(author.like('%Mark%'));
-  C<ValType> like(VString value) => C.like(name, value);
+  C<VString> like(VString value) => C.like(name, value);
 
   /// Returns an "in between" condition
   ///
@@ -142,7 +142,6 @@ class IntField {
   SetColumn<VInt> set(int value) =>
       new SetColumn<VInt>().column(name).set(V.Int(value));
 }
-
 
 /// DoubleField is a convenience DSL used to construct queries in a concise and
 /// understandable way.

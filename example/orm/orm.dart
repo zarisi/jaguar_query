@@ -1,25 +1,11 @@
 // Copyright (c) 2016, Ravi Teja Gudapati. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-/// Example of building ORM query builder
+/// Example of writing ORM beans by hand. For source generated ORM beans
+/// try 'jaguar_orm' package
 import 'package:jaguar_query/jaguar_query.dart';
 
-class Find {
-  const Find();
-}
-
-class WhereEq {
-  final Symbol field;
-
-  const WhereEq(this.field);
-}
-
-class PrimaryKey {
-  const PrimaryKey();
-}
-
 class Post {
-  @PrimaryKey()
   String id;
 
   String author;
@@ -33,36 +19,21 @@ class Post {
   static String tableName = 'posts';
 }
 
-class Bean<Model> {
-  const Bean();
-}
-
-class Comparable<ValType extends V> {
-  final String name;
-
-  const Comparable(this.name);
-
-  C eq(ValType value) => C.eq(name, value);
-}
-
-class _$PostsBean {
-  String find(String id) =>
-      Sql.find.from(Post.tableName).where(C.eq('id', V.Str(id))).toSql();
-
-  FindStatement get finder => Sql.find.from(Post.tableName);
-
-  Comparable get author => new Comparable('author');
-
-  String _findByAuthor(String auth) => finder.where(author.eq(auth)).toSql();
-}
-
-class PostsBean extends Object with _$PostsBean implements Bean<Post> {
+class PostsBean {
   final String tableName;
 
   PostsBean(this.tableName);
 
-  @Find()
-  String findByAuthor(@WhereEq(#author) String auth) => _findByAuthor(auth);
+  FindStatement get finder => Sql.find.from(Post.tableName);
+
+  StrField get id => new StrField('id');
+
+  StrField get author => new StrField('author');
+
+  String find(String id) =>
+      Sql.find.from(Post.tableName).where(this.id.eq(id)).toSql();
+
+  String findByAuthor(String auth) => finder.where(author.eq(auth)).toSql();
 }
 
 main() {}

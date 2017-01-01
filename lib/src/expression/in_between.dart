@@ -1,22 +1,29 @@
 part of query;
 
+/// An in-between conditional expression
 class InBetweenExpression<ValType extends V> extends Expression {
+  /// The field/column of the condition
   final String field;
 
+  /// The low value of the in-between condition
   final ValType low;
 
+  /// The high value of the in-between condition
   final ValType high;
 
   const InBetweenExpression(this.field, this.low, this.high);
 
+  /// Always returns 1 because in-between is not a composite expression
   int get length => 1;
 
+  /// Creates a 'logical and' expression of this expression and the [other]
   @checked
   AndExpression and(Expression exp) {
     AndExpression ret = new AndExpression();
     return ret.and(this).and(exp);
   }
 
+  /// Creates a 'logical or' expression of this expression and the [other]
   @checked
   OrExpression or(Expression exp) {
     OrExpression ret = new OrExpression();

@@ -3,12 +3,15 @@ library jaguar_orm.adapter;
 import 'dart:async';
 import 'package:jaguar_query/jaguar_query.dart';
 
+/// Adapter interface that must be implemented to support new databases
 abstract class Adapter {
+  /// Makes a new connection to database
   Future<Null> connect();
 
+  /// Closes the connection
   Future<Null> close();
 
-  /// Returns a list of rows found by executing [statement]
+  /// Returns a row found by executing [statement]
   Future<Map> findOne(FindStatement statement);
 
   /// Returns a list of rows found by executing [statement]

@@ -3,6 +3,8 @@
 
 library query;
 
+import 'dart:core';
+import 'dart:core' as core show DateTime;
 import 'package:meta/meta.dart';
 
 part 'expression/and.dart';
@@ -25,16 +27,22 @@ part 'table/table.dart';
 
 part 'values/values.dart';
 
+/// A SQL DSL object
 abstract class ToSqlable {
   String toSql();
 }
 
+/// Main DSL class to create SQL statements
 class Sql {
+  /// Creates a new Find statement
   static FindStatement get find => new FindStatement();
 
+  /// Creates a new insert statement
   static InsertStatement get insert => new InsertStatement();
 
+  /// Creates a new update statement
   static UpdateStatement get update => new UpdateStatement();
 
+  /// Creates a new delete statement
   static DeleteStatement get delete => new DeleteStatement();
 }
