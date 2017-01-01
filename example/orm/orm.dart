@@ -20,11 +20,11 @@ class Post {
 }
 
 class PostsBean {
-  final String tableName;
+  static String get tableName => Post.tableName;
 
-  PostsBean(this.tableName);
+  PostsBean();
 
-  FindStatement get finder => Sql.find.from(Post.tableName);
+  FindStatement get finder => Sql.find.from(tableName);
 
   StrField get id => new StrField('id');
 
