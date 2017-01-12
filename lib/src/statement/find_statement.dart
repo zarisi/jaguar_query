@@ -92,6 +92,14 @@ class FindStatement implements Statement {
     _limit = val;
     return this;
   }
+  
+   FindStatement offset(int val) {
+    if (_offset != null) {
+      throw new Exception('Cant use more than one offset!');
+    }
+    _offset = val;
+    return this;
+  }
 
   String toSql() {
     StringBuffer sb = new StringBuffer();
@@ -120,6 +128,10 @@ class FindStatement implements Statement {
       sb.write(' LIMIT $_limit');
     }
 
+    if (_offset is int) {
+      sb.write(' OFFSET $_limit');
+    }
+    
     sb.write(';');
 
     return sb.toString();
