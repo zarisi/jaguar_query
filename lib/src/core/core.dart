@@ -7,6 +7,8 @@ import 'dart:core';
 import 'dart:core' as core show DateTime;
 import 'package:meta/meta.dart';
 
+import 'package:jaguar_query/src/operators/operators.dart' as q;
+
 part 'expression/and.dart';
 part 'expression/condition.dart';
 part 'expression/expressions.dart';

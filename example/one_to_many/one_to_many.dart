@@ -40,7 +40,7 @@ class AuthorBean {
   FindStatement get finder => Sql.find.from(tableName);
 
   FindStatement find(String id) =>
-      Sql.find.from(Post.tableName).where(this.id.eq(id));
+      Sql.find.from(Post.tableName).where(this.id.eqL(id));
 }
 
 class PostsBean {
@@ -55,10 +55,10 @@ class PostsBean {
   FindStatement get finder => Sql.find.from(tableName);
 
   FindStatement find(String id) =>
-      Sql.find.from(Post.tableName).where(this.id.eq(id));
+      Sql.find.from(Post.tableName).where(this.id.eqL(id));
 
   FindStatement findByAuthor(Author author) =>
-      finder.where(authorId.eq(author.id));
+      finder.where(authorId.eqL(author.id));
 }
 
 main() {}

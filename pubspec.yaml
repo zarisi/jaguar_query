@@ -11,6 +11,8 @@ environment:
 
 dependencies:
   meta: '>=1.0.4 <2.0.0'
+  jaguar_orm_postgresql:
+    git: https://github.com/Jaguar-dart/jaguar_orm_postgresql.git
 
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'

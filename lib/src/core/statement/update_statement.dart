@@ -3,7 +3,7 @@ part of query;
 class UpdateStatement implements Statement {
   String _tableName;
 
-  final Map<String, V> _values = {};
+  final Map<String, L> _values = {};
 
   final AndExpression _where = new AndExpression();
 
@@ -29,12 +29,12 @@ class UpdateStatement implements Statement {
     return this;
   }
 
-  UpdateStatement setValue(String column, V value) {
+  UpdateStatement setValue(String column, L value) {
     _values[column] = value;
     return this;
   }
 
-  UpdateStatement setValues(Map<String, V> values) {
+  UpdateStatement setValues(Map<String, L> values) {
     _values.addAll(values);
     return this;
   }

@@ -1,10 +1,10 @@
 part of query;
 
-abstract class CreateColumn<ValType extends V> implements ToSqlable {
+abstract class CreateColumn<ValType extends L> implements ToSqlable {
   String _column;
 }
 
-abstract class CreateIntColumn extends CreateColumn<VInt> {
+abstract class CreateIntColumn extends CreateColumn<LInt> {
   bool _notNull;
 
   CreateIntColumn();

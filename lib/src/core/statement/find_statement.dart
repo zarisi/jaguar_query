@@ -20,7 +20,7 @@ class FindStatement implements Statement {
   final List<OrderBy> _orderBy = [];
 
   int _limit;
-  
+
   int _offset;
 
   FindStatement();
@@ -94,8 +94,8 @@ class FindStatement implements Statement {
     _limit = val;
     return this;
   }
-  
-   FindStatement offset(int val) {
+
+  FindStatement offset(int val) {
     if (_offset != null) {
       throw new Exception('Cant use more than one offset!');
     }
@@ -133,7 +133,7 @@ class FindStatement implements Statement {
     if (_offset is int) {
       sb.write(' OFFSET $_offset');
     }
-    
+
     sb.write(';');
 
     return sb.toString();

@@ -3,7 +3,7 @@ part of query;
 class InsertStatement implements Statement {
   String _tableName;
 
-  final Map<String, V> _values = {};
+  final Map<String, L> _values = {};
 
   InsertStatement();
 
@@ -27,12 +27,12 @@ class InsertStatement implements Statement {
     return this;
   }
 
-  InsertStatement setValue(String column, V value) {
+  InsertStatement setValue(String column, L value) {
     _values[column] = value;
     return this;
   }
 
-  InsertStatement setValues(Map<String, V> values) {
+  InsertStatement setValues(Map<String, L> values) {
     _values.addAll(values);
     return this;
   }
@@ -45,7 +45,7 @@ class InsertStatement implements Statement {
     sb.write(_values.keys.join(', '));
 
     sb.write(') VALUES (');
-    sb.write(_values.values.map((V val) => val.toSql()).join(', '));
+    sb.write(_values.values.map((L val) => val.toSql()).join(', '));
     sb.write(');');
 
     return sb.toString();

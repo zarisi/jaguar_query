@@ -1,15 +1,15 @@
 part of query;
 
 /// An in-between conditional expression
-class InBetweenExpression<ValType extends V> extends Expression {
+class InBetweenExpression<ValType extends L> extends Expression {
   /// The field/column of the condition
-  final String field;
+  final Valuable<ValType> field;
 
   /// The low value of the in-between condition
-  final ValType low;
+  final Valuable<ValType> low;
 
   /// The high value of the in-between condition
-  final ValType high;
+  final Valuable<ValType> high;
 
   const InBetweenExpression(this.field, this.low, this.high);
 
@@ -30,5 +30,6 @@ class InBetweenExpression<ValType extends V> extends Expression {
     return ret.or(this).or(exp);
   }
 
-  String toSql() => '($field BETWEEN ${low.toSql()} AND ${high.toSql()})';
+  String toSql() =>
+      '(${field.toSql()} BETWEEN ${low.toSql()} AND ${high.toSql()})';
 }

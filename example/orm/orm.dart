@@ -31,9 +31,9 @@ class PostsBean {
   StrField get author => new StrField('author');
 
   String find(String id) =>
-      Sql.find.from(Post.tableName).where(this.id.eq(id)).toSql();
+      Sql.find.from(Post.tableName).where(this.id.eqL(id)).toSql();
 
-  String findByAuthor(String auth) => finder.where(author.eq(auth)).toSql();
+  String findByAuthor(String auth) => finder.where(author.eqL(auth)).toSql();
 }
 
 main() {}

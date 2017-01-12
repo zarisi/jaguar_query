@@ -6,6 +6,7 @@
 /// More dartdocs go here.
 library query;
 
-export 'src/query_base.dart';
-export 'src/field/field.dart';
 export 'src/adapter/adapter.dart';
+export 'src/core/core.dart';
+export 'src/field/field.dart';
+export 'src/operators/operators.dart';
