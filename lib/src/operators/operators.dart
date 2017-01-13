@@ -2,42 +2,42 @@ library jaguary_query.operators;
 
 import 'package:jaguar_query/src/core/core.dart';
 
-/// DSL to create 'is equal to' relational condition
-Cond<ValType> eq<ValType>(Valuable<ValType> lhs, Valuable<ValType> rhs) =>
-    new Cond<ValType>(lhs, ComparisonOperator.Eq, rhs);
+part 'int.dart';
 
-/* TODO
+/// DSL to create 'is equal to' relational condition
+Cond<ValType> eq<ValType>(String field, Valuable<ValType> rhs) =>
+    new Cond<ValType>(C<ValType>(field), ComparisonOperator.Eq, rhs);
+
 /// DSL to create 'is not equal to' relational condition
-Cond<ValType> ne<ValType extends L>(String field, ValType value) =>
-    new Cond<ValType>(field, ComparisonOperator.Ne, value);
+Cond<ValType> ne<ValType>(String field, Valuable<ValType> value) =>
+    new Cond<ValType>(C<ValType>(field), ComparisonOperator.Ne, value);
 
 /// DSL to create 'is greater than' relational condition
-Cond<ValType> gt<ValType extends L>(String field, ValType value) =>
-    new Cond<ValType>(field, ComparisonOperator.Gt, value);
+Cond<ValType> gt<ValType>(String field, Valuable<ValType> value) =>
+    new Cond<ValType>(C<ValType>(field), ComparisonOperator.Gt, value);
 
 /// DSL to create 'is greater than or equal to' relational condition
-Cond<ValType> gtEq<ValType extends L>(String field, ValType value) =>
-    new Cond<ValType>(field, ComparisonOperator.GtEq, value);
+Cond<ValType> gtEq<ValType>(String field, Valuable<ValType> value) =>
+    new Cond<ValType>(C<ValType>(field), ComparisonOperator.GtEq, value);
 
 /// DSL to create 'is less than or equal to' relational condition
-Cond<ValType> ltEq<ValType extends L>(String field, ValType value) =>
-    new Cond<ValType>(field, ComparisonOperator.LtEq, value);
+Cond<ValType> ltEq<ValType>(String field, Valuable<ValType> value) =>
+    new Cond<ValType>(C<ValType>(field), ComparisonOperator.LtEq, value);
 
 /// DSL to create 'is less than' relational condition
-Cond<ValType> lt<ValType extends L>(String field, ValType value) =>
-    new Cond<ValType>(field, ComparisonOperator.Lt, value);
+Cond<ValType> lt<ValType>(String field, Valuable<ValType> value) =>
+    new Cond<ValType>(C<ValType>(field), ComparisonOperator.Lt, value);
 
 /// DSL to create 'is like' relational condition
 Cond<LStr> like(String field, LStr value) =>
-    new Cond<LStr>(field, ComparisonOperator.Like, value);
+    new Cond<LStr>(C<String>(field), ComparisonOperator.Like, value);
 
 /// DSL to create 'in-between' relational condition
-InBetweenExpression<ValType> inBetween<ValType extends L>(
-        String field, ValType low, ValType high) =>
-    new InBetweenExpression<ValType>(field, low, high);
+InBetweenExpression<ValType> inBetween<ValType>(
+        String field, Valuable<ValType> low, Valuable<ValType> high) =>
+    new InBetweenExpression<ValType>(C<ValType>(field), low, high);
 
-/// DSL to create 'is equal to' relational condition
-Cond<ValType> eqCol<ValType extends L>(
-        Column<ValType> field, Column<ValType> value) =>
-    new Cond<ValType>(field, ComparisonOperator.Eq, value);
-*/
+/// DSL to create 'is equal to column' relational condition
+Cond<ValType> eqC<ValType>(
+        String field, Column<ValType> value) =>
+    new Cond<ValType>(C<ValType>(field), ComparisonOperator.Eq, value);

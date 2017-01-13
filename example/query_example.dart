@@ -7,8 +7,8 @@ main() {
   FindStatement find = Sql.find
       .from('posts')
       .select('message')
-      //TODO .where(LInt.gt(C('likes'), 10) & LInt.lt(C('replies'), 5))
-      //TODO .where(eq<String>(C('author'), L.Str('teja')) | like('author', L.Str('kleak*')))
+      .where(gtInt('likes', 10) & ltInt('replies', 5))
+      .where(eq('author', L.Str('teja')) | like('author', L.Str('kleak*')))
       .orderBy('author', true)
       .limit(10);
 
@@ -24,13 +24,13 @@ main() {
 
   UpdateStatement update = Sql.update
       .into('posts')
-      .where(eq(C<String>('author'), L.Str('teja')))
+      .where(eq('author', L.Str('teja')))
       .setValue('likes', L.Int(1));
 
   print(update.toSql());
 
   DeleteStatement delete =
-      Sql.delete.from('posts').where(eq<String>(C('author'), L.Str('teja')));
+      Sql.delete.from('posts').where(eq('author', L.Str('teja')));
 
   print(delete.toSql());
 }

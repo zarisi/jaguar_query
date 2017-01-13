@@ -1,7 +1,7 @@
 part of query;
 
 /// An in-between conditional expression
-class InBetweenExpression<ValType extends L> extends Expression {
+class InBetweenExpression<ValType> extends Expression {
   /// The field/column of the condition
   final Valuable<ValType> field;
 

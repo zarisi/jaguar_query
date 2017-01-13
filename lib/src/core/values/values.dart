@@ -18,11 +18,29 @@ abstract class L<ValType> implements Valuable<ValType> {
 class Column<ValType> implements Valuable<ValType> {
   final String field;
 
-  final String tableName;
+  final String tableAlias;
 
-  const Column(this.field, [this.tableName]);
+  const Column(this.field, [this.tableAlias]);
 
-  String toSql() => (tableName != null ? tableName + '.' : '') + '$field';
+  String toSql() => (tableAlias != null ? tableAlias + '.' : '') + '$field';
+
+  /// DSL to create 'is equal to' relational condition
+  Cond<int> eqC(Column<ValType> rhs) => Cond.eq<ValType>(this, rhs);
+
+  /// DSL to create 'is equal to' relational condition
+  Cond<int> eqV(Valuable<ValType> rhs) => Cond.eq<ValType>(this, rhs);
+}
+
+class IntC extends Column<int> {
+  const IntC(String field, [String tableAlias]) : super(field, tableAlias);
+
+  String toSql() => (tableAlias != null ? tableAlias + '.' : '') + '$field';
+
+  /// DSL to create 'is equal to' relational condition
+  Cond<int> eq(int rhs) => Cond.eq<int>(this, L.Int(rhs));
+
+  static Cond<int> eqL(String field, int rhs) =>
+      Cond.eq<int>(C<int>(field), L.Int(rhs));
 }
 
 Column<ValType> C<ValType>(String field, [String tableName]) =>
@@ -38,38 +56,34 @@ class LInt implements L<int> {
   String toSql() => '$value';
 
   /// DSL to create 'is equal to' relational condition
-  static Cond<int> eq(Valuable<int> lhs, int rhs) =>
-      q.eq<int>(lhs, new LInt(rhs));
+  static Cond<int> eq(String field, int rhs) => q.eqInt(field, rhs);
 
-  /* TODO
   /// DSL to create 'is not equal to' relational condition
-  static Cond<LInt> ne(String field, int value) =>
-      q.ne<VInt>(field, new LInt(value));
+  static Cond<int> ne(String field, int value) => q.neInt(field, value);
 
   /// DSL to create 'is greater than' relational condition
-  static Cond<LInt> gt(String field, int value) =>
-      q.gt<VInt>(field, new LInt(value));
+  static Cond<int> gt(String field, int value) => q.gtInt(field, value);
 
   /// DSL to create 'is greater than or equal to' relational condition
-  static Cond<LInt> gtEq(String field, int value) =>
-      q.gtEq<VInt>(field, new LInt(value));
+  static Cond<int> gtEq(String field, int value) => q.gtEqInt(field, value);
 
   /// DSL to create 'is less than or equal to' relational condition
-  static Cond<LInt> ltEq(String field, int value) =>
-      q.ltEq<VInt>(field, new LInt(value));
+  static Cond<int> ltEq(String field, int value) => q.ltEqInt(field, value);
 
   /// DSL to create 'is less than' relational condition
-  static Cond<LInt> lt(String field, int value) =>
-      q.lt<VInt>(field, new LInt(value));
+  static Cond<int> lt(String field, int value) => q.ltInt(field, value);
 
   /// DSL to create 'in-between' relational condition
-  static InBetweenExpression<LInt> inBetween(String field, int low, int high) =>
-      q.inBetween<VInt>(field, new LInt(low), new LInt(high));
-      */
+  static InBetweenExpression<int> inBetween(String field, int low, int high) =>
+      q.inBetweenInt(field, low, high);
+
+  /// DSL to create 'is equal to' relational condition
+  static Cond<int> eqC(String field, Column<int> column) =>
+      q.eqC<int>(field, column);
 }
 
 /// Double literal value
-class LDouble implements L {
+class LDouble implements L<double> {
   /// The literal value
   final double value;
 
@@ -78,39 +92,37 @@ class LDouble implements L {
   String toSql() => '$value';
 
   /// DSL to create 'is equal to' relational condition
-  static Cond<double> eq(Valuable<double> field, double value) =>
+  static Cond<double> eq(String field, double value) =>
       q.eq<double>(field, new LDouble(value));
 
-  /* TODO
   /// DSL to create 'is not equal to' relational condition
-  static Cond<LDouble> ne(String field, double value) =>
-      q.ne<VDouble>(field, new LDouble(value));
+  static Cond<double> ne(String field, double value) =>
+      q.ne<double>(field, new LDouble(value));
 
   /// DSL to create 'is greater than' relational condition
-  static Cond<LDouble> gt(String field, double value) =>
-      q.gt<VDouble>(field, new LDouble(value));
+  static Cond<double> gt(String field, double value) =>
+      q.gt<double>(field, new LDouble(value));
 
   /// DSL to create 'is greater than or equal to' relational condition
-  static Cond<LDouble> gtEq(String field, double value) =>
-      q.gtEq<VDouble>(field, new LDouble(value));
+  static Cond<double> gtEq(String field, double value) =>
+      q.gtEq<double>(field, new LDouble(value));
 
   /// DSL to create 'is less than or equal to' relational condition
-  static Cond<LDouble> ltEq(String field, double value) =>
-      q.ltEq<VDouble>(field, new LDouble(value));
+  static Cond<double> ltEq(String field, double value) =>
+      q.ltEq<double>(field, new LDouble(value));
 
   /// DSL to create 'is less than' relational condition
-  static Cond<LDouble> lt(String field, double value) =>
-      q.lt<VDouble>(field, new LDouble(value));
+  static Cond<double> lt(String field, double value) =>
+      q.lt<double>(field, new LDouble(value));
 
   /// DSL to create 'in-between' relational condition
-  static InBetweenExpression<LDouble> inBetween(
+  static InBetweenExpression<double> inBetween(
           String field, double low, double high) =>
-      q.inBetween<VDouble>(field, new LDouble(low), new LDouble(high));
-      */
+      q.inBetween<double>(field, new LDouble(low), new LDouble(high));
 }
 
 /// DateTime literal value
-class LDateTime implements L {
+class LDateTime implements L<DateTime> {
   /// The literal value
   final DateTime value;
 
@@ -119,7 +131,7 @@ class LDateTime implements L {
   String toSql() => '$value'; //TODO
 
   /// DSL to create 'is equal to' relational condition
-  static Cond<DateTime> eq(Valuable<DateTime> field, DateTime value) =>
+  static Cond<DateTime> eq(String field, DateTime value) =>
       q.eq<DateTime>(field, new LDateTime(value));
 
   /* TODO
@@ -151,7 +163,7 @@ class LDateTime implements L {
 }
 
 /// String literal value
-class LStr implements L {
+class LStr implements L<String> {
   /// The literal value
   final String value;
 
@@ -160,7 +172,7 @@ class LStr implements L {
   String toSql() => "'$value'";
 
   /// DSL to create 'is equal to' relational condition
-  static Cond<String> eq(Valuable<String> field, String value) =>
+  static Cond<String> eq(String field, String value) =>
       q.eq<String>(field, new LStr(value));
 
   /* TODO

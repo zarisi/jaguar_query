@@ -18,7 +18,7 @@ class SelColumn implements ToSqlable {
   }
 }
 
-class SetColumn<ValType extends L> {
+class SetColumn<ValType> {
   String _column;
 
   ValType _value;

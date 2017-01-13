@@ -64,8 +64,8 @@ main() async {
     st
         .from(Post.tableName)
         .leftJoin(Author.tableName)
-        .joinOn(LInt.eq(C('author.id'), 1))
-        .where(eq(C('posts.authorid'), C('id', 'author')));
+        .joinOn(LInt.eq('author.id', 1))
+        .where(eq('posts.authorid', C('id', 'author')));
 
     List<Map> res = await (await adapter.find(st)).toList();
     print(res);

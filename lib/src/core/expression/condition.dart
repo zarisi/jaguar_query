@@ -35,41 +35,41 @@ class Cond<ValType> extends Expression {
   String toSql() => '${lhs.toSql()} ${op.toSql()} ${rhs.toSql()}';
 
   /// DSL to create 'is equal to' relational condition
-  static Cond eq<ValType extends L>(
+  static Cond eq<ValType>(
           Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Eq, value);
 
   /// DSL to create 'is not equal to' relational condition
-  static Cond ne<ValType extends L>(
+  static Cond ne<ValType>(
           Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Ne, value);
 
   /// DSL to create 'is greater than' relational condition
-  static Cond gt<ValType extends L>(
+  static Cond gt<ValType>(
           Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Gt, value);
 
   /// DSL to create 'is greater than or equal to' relational condition
-  static Cond gtEq<ValType extends L>(
+  static Cond gtEq<ValType>(
           Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.GtEq, value);
 
   /// DSL to create 'is less than or equal to' relational condition
-  static Cond ltEq<ValType extends L>(
+  static Cond ltEq<ValType>(
           Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.LtEq, value);
 
   /// DSL to create 'is less than' relational condition
-  static Cond lt<ValType extends L>(
+  static Cond lt<ValType>(
           Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Lt, value);
 
   /// DSL to create 'is like' relational condition
-  static Cond<LStr> like(Valuable<LStr> field, Valuable<LStr> value) =>
-      new Cond<LStr>(field, ComparisonOperator.Like, value);
+  static Cond<String> like(Valuable<String> field, Valuable<String> value) =>
+      new Cond<String>(field, ComparisonOperator.Like, value);
 
   /// DSL to create 'in-between' relational condition
-  static InBetweenExpression<ValType> inBetween<ValType extends L>(
+  static InBetweenExpression<ValType> inBetween<ValType>(
           Valuable<ValType> field,
           Valuable<ValType> low,
           Valuable<ValType> high) =>
