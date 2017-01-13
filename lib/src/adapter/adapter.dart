@@ -4,12 +4,14 @@ import 'dart:async';
 import 'package:jaguar_query/jaguar_query.dart';
 
 /// Adapter interface that must be implemented to support new databases
-abstract class Adapter {
+abstract class Adapter<ConnType> {
   /// Makes a new connection to database
   Future<Null> connect();
 
   /// Closes the connection
   Future<Null> close();
+
+  ConnType get connection;
 
   /// Returns a row found by executing [statement]
   Future<Map> findOne(FindStatement statement);
