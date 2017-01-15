@@ -13,7 +13,11 @@ class OrderBy implements ToSqlable {
 class FindStatement implements Statement {
   final Set<SelColumn> _column = new Set<SelColumn>();
 
-  final JoinedTable _fromClause = new JoinedTable();
+  TableName _from;
+
+  final List<JoinedTable> _joins = [];
+
+  JoinedTable _curJoin;
 
   final AndExpression _where = new AndExpression();
 
@@ -26,42 +30,57 @@ class FindStatement implements Statement {
   FindStatement();
 
   FindStatement from(String tableName, [String alias]) {
-    _fromClause.from(tableName, alias);
+    if (_from != null) {
+      throw new Exception('From table already specified!');
+    }
+    _from = new TableName(tableName, alias);
     return this;
   }
 
-  FindStatement join(JoinType joinType, String tableName, [String alias]) {
-    _fromClause.join(joinType, tableName, alias);
+  FindStatement join(JoinedTable join) {
+    if (join == null) {
+      throw new Exception('Join cannot be null!');
+    }
+    _curJoin = join;
+    _joins.add(_curJoin);
     return this;
   }
 
   FindStatement innerJoin(String tableName, [String alias]) {
-    _fromClause.innerJoin(tableName, alias);
+    _curJoin = new JoinedTable.innerJoin(tableName, alias);
+    _joins.add(_curJoin);
     return this;
   }
 
   FindStatement leftJoin(String tableName, [String alias]) {
-    _fromClause.leftJoin(tableName, alias);
+    _curJoin = new JoinedTable.leftJoin(tableName, alias);
+    _joins.add(_curJoin);
     return this;
   }
 
   FindStatement rightJoin(String tableName, [String alias]) {
-    _fromClause.rightJoin(tableName, alias);
+    _curJoin = new JoinedTable.rightJoin(tableName, alias);
+    _joins.add(_curJoin);
     return this;
   }
 
   FindStatement fullJoin(String tableName, [String alias]) {
-    _fromClause.fullJoin(tableName, alias);
+    _curJoin = new JoinedTable.fullJoin(tableName, alias);
+    _joins.add(_curJoin);
     return this;
   }
 
   FindStatement crossJoin(String tableName, [String alias]) {
-    _fromClause.crossJoin(tableName, alias);
+    _curJoin = new JoinedTable.crossJoin(tableName, alias);
+    _joins.add(_curJoin);
     return this;
   }
 
   FindStatement joinOn(Expression exp) {
-    _fromClause..joinOn(exp);
+    if (_curJoin == null) {
+      throw new Exception('No joins in the join stack!');
+    }
+    _curJoin.joinOn(exp);
     return this;
   }
 
@@ -114,7 +133,12 @@ class FindStatement implements Statement {
     }
 
     sb.write(' FROM ');
-    sb.write(_fromClause.toSql());
+    sb.write(_from.toSql());
+
+    for (JoinedTable tab in _joins) {
+      sb.write(' ');
+      sb.write(tab.toSql());
+    }
 
     if (_where.length != 0) {
       sb.write(' WHERE ');

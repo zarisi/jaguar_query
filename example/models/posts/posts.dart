@@ -62,7 +62,7 @@ main() async {
     FindStatement st = new FindStatement();
     st
         .from(Post.tableName)
-        .leftJoin(Author.tableName)
+        .fullJoin(Author.tableName)
         .joinOn(LInt.eq('author.id', 1))
         .where(eq('posts.authorid', C('id', 'author')));
 
