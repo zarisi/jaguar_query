@@ -1,6 +1,5 @@
-import 'dart:async';
 import 'dart:io';
-import 'package:jaguar_orm_postgresql/jaguar_orm_postgresql.dart';
+import 'package:jaguar_query_postgresql/jaguar_query_postgresql.dart';
 
 class Author {
   Author();

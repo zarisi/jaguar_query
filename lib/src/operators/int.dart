@@ -25,6 +25,5 @@ Cond<int> ltInt(String field, int rhs) =>
     new Cond<int>(C<int>(field), ComparisonOperator.Lt, L.Int(rhs));
 
 /// DSL to create 'in-between' relational condition
-InBetweenExpression<int> inBetweenInt(
-    String field, int low, int high) =>
+InBetweenExpression<int> inBetweenInt(String field, int low, int high) =>
     new InBetweenExpression<int>(C<int>(field), L.Int(low), L.Int(high));

@@ -38,6 +38,5 @@ InBetweenExpression<ValType> inBetween<ValType>(
     new InBetweenExpression<ValType>(C<ValType>(field), low, high);
 
 /// DSL to create 'is equal to column' relational condition
-Cond<ValType> eqC<ValType>(
-        String field, Column<ValType> value) =>
+Cond<ValType> eqC<ValType>(String field, Column<ValType> value) =>
     new Cond<ValType>(C<ValType>(field), ComparisonOperator.Eq, value);

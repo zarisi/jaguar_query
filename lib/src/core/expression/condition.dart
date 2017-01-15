@@ -35,33 +35,27 @@ class Cond<ValType> extends Expression {
   String toSql() => '${lhs.toSql()} ${op.toSql()} ${rhs.toSql()}';
 
   /// DSL to create 'is equal to' relational condition
-  static Cond eq<ValType>(
-          Valuable<ValType> field, Valuable<ValType> value) =>
+  static Cond eq<ValType>(Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Eq, value);
 
   /// DSL to create 'is not equal to' relational condition
-  static Cond ne<ValType>(
-          Valuable<ValType> field, Valuable<ValType> value) =>
+  static Cond ne<ValType>(Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Ne, value);
 
   /// DSL to create 'is greater than' relational condition
-  static Cond gt<ValType>(
-          Valuable<ValType> field, Valuable<ValType> value) =>
+  static Cond gt<ValType>(Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Gt, value);
 
   /// DSL to create 'is greater than or equal to' relational condition
-  static Cond gtEq<ValType>(
-          Valuable<ValType> field, Valuable<ValType> value) =>
+  static Cond gtEq<ValType>(Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.GtEq, value);
 
   /// DSL to create 'is less than or equal to' relational condition
-  static Cond ltEq<ValType>(
-          Valuable<ValType> field, Valuable<ValType> value) =>
+  static Cond ltEq<ValType>(Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.LtEq, value);
 
   /// DSL to create 'is less than' relational condition
-  static Cond lt<ValType>(
-          Valuable<ValType> field, Valuable<ValType> value) =>
+  static Cond lt<ValType>(Valuable<ValType> field, Valuable<ValType> value) =>
       new Cond<ValType>(field, ComparisonOperator.Lt, value);
 
   /// DSL to create 'is like' relational condition

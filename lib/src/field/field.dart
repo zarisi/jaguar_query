@@ -81,8 +81,8 @@ class Field<ValType> {
   ///     UpdateStatement update = new UpdateStatement();
   ///     Field<VInt> age = new Field<VInt>('age');
   ///     update.set(age.set(20));
-  SetColumn<ValType> set(ValType value) =>
-      new SetColumn<ValType>().column(name).set(value);
+  SetColumn<L<ValType>> set(L<ValType> value) =>
+      new SetColumn<L<ValType>>().column(name).set(value);
 }
 
 /// IntField is a convenience DSL used to construct queries in a concise and
@@ -154,7 +154,8 @@ class IntField {
   ///     UpdateStatement update = new UpdateStatement();
   ///     IntField age = new IntField('age');
   ///     update.set(age.set(20));
-  SetColumn<int> set(int value) => new SetColumn<int>().column(name).set(value);
+  SetColumn<LInt> set(int value) =>
+      new SetColumn<LInt>().column(name).set(L.Int(value));
 }
 
 /// DoubleField is a convenience DSL used to construct queries in a concise and
@@ -228,8 +229,8 @@ class DoubleField {
   ///     UpdateStatement update = new UpdateStatement();
   ///     DoubleField age = new DoubleField('age');
   ///     update.set(age.set(20));
-  SetColumn<double> set(double value) =>
-      new SetColumn<double>().column(name).set(value);
+  SetColumn<LDouble> set(double value) =>
+      new SetColumn<LDouble>().column(name).set(L.Double(value));
 }
 
 /// StrField is a convenience DSL used to construct queries in a concise and
@@ -311,6 +312,6 @@ class StrField {
   ///     UpdateStatement update = new UpdateStatement();
   ///     StrField author = new StrField('author');
   ///     update.set(author.set('Mark'));
-  SetColumn<String> set(String value) =>
-      new SetColumn<String>().column(name).set(value);
+  SetColumn<LStr> set(String value) =>
+      new SetColumn<LStr>().column(name).set(L.Str(value));
 }
