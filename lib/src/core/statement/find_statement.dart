@@ -23,6 +23,8 @@ class FindStatement implements Statement {
 
   final List<OrderBy> _orderBy = [];
 
+  final List<String> _groupBy = [];
+
   int _limit;
 
   int _offset;
@@ -122,6 +124,16 @@ class FindStatement implements Statement {
     return this;
   }
 
+  FindStatement groupBy(String val) {
+    _groupBy.add(val);
+    return this;
+  }
+
+  FindStatement groupByMany(List<String> columns) {
+    _groupBy.addAll(columns);
+    return this;
+  }
+
   String toSql() {
     StringBuffer sb = new StringBuffer();
     sb.write('SELECT ');
@@ -156,6 +168,11 @@ class FindStatement implements Statement {
 
     if (_offset is int) {
       sb.write(' OFFSET $_offset');
+    }
+
+    if (_groupBy.length != 0) {
+      sb.write(' GROUP BY ');
+      sb.write(_groupBy.map((String groupBy) => groupBy).join(', '));
     }
 
     sb.write(';');
