@@ -130,9 +130,7 @@ class FindStatement implements Statement {
   }
 
   FindStatement groupByMany(List<String> columns) {
-    columns.forEach((String column) {
-      _groupBy.add(column);
-    });
+    _groupBy.addAll(columns);
     return this;
   }
 
