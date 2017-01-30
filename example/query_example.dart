@@ -10,7 +10,8 @@ main() {
       .where(gtInt('likes', 10) & ltInt('replies', 5))
       .where(eq('author', L.Str('teja')) | like('author', L.Str('kleak*')))
       .orderBy('author', true)
-      .limit(10);
+      .limit(10)
+      .groupByMany(['message', 'likes']);
 
   print(find.toSql());
 
