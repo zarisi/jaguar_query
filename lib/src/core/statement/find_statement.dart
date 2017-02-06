@@ -91,6 +91,11 @@ class FindStatement implements Statement {
     return this;
   }
 
+  FindStatement count(String columnName, [String alias, bool isDistinct]) {
+    _column.add(new CountSelColumn(columnName, alias, isDistinct));
+    return this;
+  }
+
   FindStatement where(Expression exp) {
     _where.and(exp);
     return this;

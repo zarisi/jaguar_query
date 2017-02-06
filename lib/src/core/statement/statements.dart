@@ -18,6 +18,31 @@ class SelColumn implements ToSqlable {
   }
 }
 
+class CountSelColumn extends SelColumn {
+  final bool isDistinct;
+
+  final String alias;
+
+  CountSelColumn(String name, [this.alias,this.isDistinct]) : super(name, alias);
+
+  String toSql() {
+    String ret = 'COUNT(';
+
+    if (isDistinct is bool && isDistinct) {
+        ret +='DISTINCT ';
+    }
+
+    ret += '${this.name})';
+
+    if (alias is String) {
+      ret += ' as ${this.alias}';
+    }
+
+    return ret;
+  }
+
+}
+
 class SetColumn<ValType extends L> {
   String _column;
 
