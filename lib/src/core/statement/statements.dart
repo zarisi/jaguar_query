@@ -23,13 +23,13 @@ class CountSelColumn extends SelColumn {
 
   final String alias;
 
-  CountSelColumn(String name, [this.alias, this.isDistinct])
+  CountSelColumn(String name, {this.alias, this.isDistinct: false})
       : super(name, alias);
 
   String toSql() {
     String ret = 'COUNT(';
 
-    if (isDistinct is bool && isDistinct) {
+    if (isDistinct) {
       ret += 'DISTINCT ';
     }
 

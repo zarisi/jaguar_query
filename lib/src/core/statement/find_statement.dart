@@ -91,8 +91,10 @@ class FindStatement implements Statement {
     return this;
   }
 
-  FindStatement count(String columnName, [String alias, bool isDistinct]) {
-    _column.add(new CountSelColumn(columnName, alias, isDistinct));
+  FindStatement count(String columnName,
+      {String alias, bool isDistinct: false}) {
+    _column.add(
+        new CountSelColumn(columnName, alias: alias, isDistinct: isDistinct));
     return this;
   }
 
